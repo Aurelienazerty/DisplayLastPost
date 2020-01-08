@@ -1,16 +1,16 @@
 {
-    "name": "Aurelienazerty/DisplayLastPost",
+    "name": "aurelienazerty/displaylastpost",
     "type": "phpbb-extension",
     "description": "Extension which displays the lastest post of the previous page on the top of viewtopic.",
-    "homepage": "http://www.team-azerty.com",
+    "homepage": "https://www.team-azerty.com",
     "version": "1.2.2",
     "time": "2020-01-08",
     "keywords": ["phpbb", "extension", "post"],
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "authors": [
         {
-            "name": "Aurelienazerty",
-            "homepage": "http://www.team-azerty.com",
+            "name": "aurelienazerty",
+            "homepage": "https://www.team-azerty.com",
             "role": "Main developer"
         },
 		{
@@ -36,7 +36,7 @@
         "php": ">=5.3.3"
     },
    "extra": {
-        "display-name": "Display Last Post",
+        "display-name": "DisplayLastPost",
         "soft-require": {
             "phpbb/phpbb": ">=3.1.0"
         },

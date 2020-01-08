@@ -34,6 +34,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-	'DISPLAY_LAST_POST_SHOW'		=> 'Display de laatste posting van de vorige pagina',
-	'DISPLAY_LAST_POST_SHOW_EXPLAIN'	=> 'Indien ingeschakeld, geef de laatste posting van de vorige pagina weer boven in het topic.',
+	'DISPLAY_LAST_POST_SHOW'			=> 'Display de laatste posting van de vorige pagina',
+	'DISPLAY_LAST_POST_SHOW_EXPLAIN'		=> 'Indien ingeschakeld, geef de laatste posting van de vorige pagina weer boven in het topic.',
 ));

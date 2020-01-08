@@ -2,7 +2,6 @@
 /**
  *
  * Display Last Post extension for the phpBB Forum Software package.
- * Russian translation by HD321kbps
  *
  * @copyright (c) 2013 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)

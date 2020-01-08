@@ -8,7 +8,7 @@
  *
  */
 
-namespace Aurelienazerty\DisplayLastPost\event;
+namespace aurelienazerty\displaylastpost\event;
 
 /**
  * Event listener
@@ -77,7 +77,7 @@ class listener implements EventSubscriberInterface
 		$start = $event['start'];
 		if ($this->config['display_last_post_show'] && $start > 0 && $event["post_row"]["POST_ID"] == $this->last_post_id)
 		{
-			$this->user->add_lang_ext('Aurelienazerty/DisplayLastPost', 'display_last_post');
+			$this->user->add_lang_ext('aurelienazerty/displaylastpost', 'display_last_post');
 			$post_row = $event['post_row'];
 			$post_row['MESSAGE'] = '<p style="font-weight: bold; font-size: 1em;">' . $this->user->lang['DISPLAY_LAST_POST_TEXT'] . $this->user->lang['COLON'] . '</p>' . $post_row['MESSAGE'];
 			$event['post_row'] = $post_row;

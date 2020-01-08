@@ -8,7 +8,7 @@
  *
  */
 
-namespace Aurelienazerty\DisplayLastPost\migrations;
+namespace aurelienazerty\displaylastpost\migrations;
 
 class release_0_1_0 extends \phpbb\db\migration\migration 
 {
