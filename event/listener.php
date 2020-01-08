@@ -37,7 +37,6 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\config\config	$config	Config object
 	 * @param \phpbb\user	$user	user object
 	 * @param \phpbb\request\request $request request object
-	 * @return \Aurelienazerty\DisplayLastPost\event\listener
 	 * @access public
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request $request)
