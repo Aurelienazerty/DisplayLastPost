@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Extension which displays the post on the bottom of the previous page on the top of viewtopic.",
     "homepage": "https://www.team-azerty.com",
-    "version": "1.2.3",
-    "time": "2020-01-08",
+    "version": "1.2.4",
+    "time": "2020-11-08",
     "keywords": ["phpbb", "extension", "post"],
     "license": "GPL-2.0-only",
     "authors": [

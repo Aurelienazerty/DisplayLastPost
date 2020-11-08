@@ -26,6 +26,9 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\user $user */
 	protected $user;
+	
+	/** @var \phpbb\request\request */
+	protected $request;
 
 	/** @var int */
 	private $last_post_id;
@@ -75,7 +78,7 @@ class listener implements EventSubscriberInterface
 	public function modify_first_post_of_the_topic($event)
 	{
 		$start = $event['start'];
-		if ($this->config['display_last_post_show'] && $start > 0 && $event["post_row"]["POST_ID"] == $this->last_post_id)
+		if ($this->config['display_last_post_show'] && $start > 0 && $event['post_row']['POST_ID'] == $this->last_post_id)
 		{
 			$this->user->add_lang_ext('aurelienazerty/displaylastpost', 'display_last_post');
 			$post_row = $event['post_row'];
