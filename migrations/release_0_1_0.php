@@ -26,4 +26,11 @@ class release_0_1_0 extends \phpbb\db\migration\migration
 			)
 		);
 	}
+	
+	static public function depends_on()
+	{
+		 return array(
+			'\phpbb\db\migration\data\v31x\v310',
+		);
+	}
 }

@@ -29,9 +29,9 @@ class listener implements EventSubscriberInterface
 	
 	/** @var \phpbb\request\request */
 	protected $request;
-
-	/** @var int */
-	private $last_post_id;
+	
+	/** @var \phpbb\language\language $language */
+	protected $language;
 
 	/**
 	 * Constructor
@@ -42,12 +42,13 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\request\request $request request object
 	 * @access public
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request $request)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request $request, \phpbb\language\language $language)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->user = $user;
 		$this->request = $request;
+		$this->language = $language;
 	}
 
 	/**
@@ -78,11 +79,11 @@ class listener implements EventSubscriberInterface
 	public function modify_first_post_of_the_topic($event)
 	{
 		$start = $event['start'];
-		if ($this->config['display_last_post_show'] && $start > 0 && $event['post_row']['POST_ID'] == $this->last_post_id)
+		if ($this->config['display_last_post_show'] && $start > 0)
 		{
-			$this->user->add_lang_ext('aurelienazerty/displaylastpost', 'display_last_post');
+			$this->language->add_lang('display_last_post', 'aurelienazerty/displaylastpost');
 			$post_row = $event['post_row'];
-			$post_row['MESSAGE'] = '<p style="font-weight: bold; font-size: 1em;">' . $this->user->lang['DISPLAY_LAST_POST_TEXT'] . $this->user->lang['COLON'] . '</p>' . $post_row['MESSAGE'];
+			$post_row['MESSAGE'] = '<p style="font-weight: bold; font-size: 1em;">' . $this->language->lang('DISPLAY_LAST_POST_TEXT') . $this->language->lang('COLON') . '</p>' . $post_row['MESSAGE'];
 			$event['post_row'] = $post_row;
 		}
 	}
@@ -113,11 +114,9 @@ class listener implements EventSubscriberInterface
 			$join_user_sql = array('a' => true, 't' => false, 's' => false);
 			
 			$default_sort_days	= (!empty($this->user->data['user_post_show_days'])) ? $this->user->data['user_post_show_days'] : 0;
-			$default_sort_key	= (!empty($this->user->data['user_post_sortby_type'])) ? $this->user->data['user_post_sortby_type'] : 't';
 			$default_sort_dir	= (!empty($this->user->data['user_post_sortby_dir'])) ? $this->user->data['user_post_sortby_dir'] : 'a';
 			
 			$sort_days	= $this->request->variable('st', $default_sort_days);
-			$sort_key	= $this->request->variable('sk', $default_sort_key);
 			$sort_dir	= $this->request->variable('sd', $default_sort_dir);
 			
 			if ($sort_days) 
@@ -143,20 +142,6 @@ class listener implements EventSubscriberInterface
 			
 			$from_array = array(POSTS_TABLE	=> 'p');
 			$join_array = array(POSTS_TABLE => 'p2');
-			$join_user = '';
-			if ($join_user_sql[$sort_key])
-			{
-				 $from_array[USERS_TABLE] = 'u';
-				 $join_user = ' AND u.user_id = p2.poster_id ';
-				 $last_post = ' AND p2.post_time ' . $sort . ' p.post_time ';
-				 $order_by = 'p2.poster_id' . ' ' . $order . ', p2.post_time DESC';
-				 $order = '';
-			}
-			else
-			{
-				$last_post = 'AND p2.post_time ' . $sort . ' p.post_time ';
-				$order_by = 'p2.post_time';
-			}
 			
 			$sql_array = array(
 				'SELECT'	=> 'p2.post_id',
@@ -165,20 +150,20 @@ class listener implements EventSubscriberInterface
 					array(
 						'FROM'  => $join_array,
 						'ON'    => ' p2.topic_id = ' . (int) $topic_data['topic_id'] . '
-							AND p2.post_visibility = 1 ' . 
-							$last_post . $join_user . $limit_posts_time,
+							AND p2.post_visibility = 1 
+							AND p2.post_time ' . $sort . ' p.post_time ' . $limit_posts_time,
 					)
 				),
 				'WHERE' => 'p.post_id = ' . (int) $post_list[0] . ' AND p2.post_id IS NOT NULL',
-				'ORDER_BY' => $order_by . ' ' . $order
+				'ORDER_BY' => 'p2.post_time ' . $order
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
+			var_dump($sql);
 			$result = $this->db->sql_query_limit($sql, 1);
 			//Array dereferencing only for php >= 5.4
 			$fetchrow = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			$this->last_post_id = $fetchrow['post_id'];
-			$new_post_list[0] = $this->last_post_id;
+			$new_post_list[0] = $fetchrow['post_id'];
 			$event['post_list'] = $new_post_list;
 			$sql_ary['WHERE'] = $this->db->sql_in_set('p.post_id', $new_post_list) . ' AND u.user_id = p.poster_id';
 			$event['sql_ary'] = $sql_ary;
