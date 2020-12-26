@@ -79,7 +79,10 @@ class listener implements EventSubscriberInterface
 	public function modify_first_post_of_the_topic($event)
 	{
 		$start = $event['start'];
-		if ($this->config['display_last_post_show'] && $start > 0)
+		$default_sort_key	= (!empty($this->user->data['user_post_sortby_type'])) ? $this->user->data['user_post_sortby_type'] : 't';
+		$sort_key	= $this->request->variable('sk', $default_sort_key);
+		
+		if ($sort_key == 't' && $this->config['display_last_post_show'] && $start > 0)
 		{
 			$this->language->add_lang('display_last_post', 'aurelienazerty/displaylastpost');
 			$post_row = $event['post_row'];
@@ -103,7 +106,11 @@ class listener implements EventSubscriberInterface
 		$start = $event['start'];
 		$sql_ary = $event['sql_ary'];
 		$post_list = $event['post_list'];
-		if ($this->config['display_last_post_show'] && $start > 0)
+		
+		$default_sort_key	= (!empty($this->user->data['user_post_sortby_type'])) ? $this->user->data['user_post_sortby_type'] : 't';
+		$sort_key	= $this->request->variable('sk', $default_sort_key);
+		
+		if ($sort_key == 't' && $this->config['display_last_post_show'] && $start > 0)
 		{
 			$new_post_list = array();
 			foreach ($post_list as $key => $value)
@@ -158,7 +165,6 @@ class listener implements EventSubscriberInterface
 				'ORDER_BY' => 'p2.post_time ' . $order
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
-			var_dump($sql);
 			$result = $this->db->sql_query_limit($sql, 1);
 			//Array dereferencing only for php >= 5.4
 			$fetchrow = $this->db->sql_fetchrow($result);
