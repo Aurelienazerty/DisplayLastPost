@@ -82,7 +82,9 @@ class listener implements EventSubscriberInterface
 		$default_sort_key	= (!empty($this->user->data['user_post_sortby_type'])) ? $this->user->data['user_post_sortby_type'] : 't';
 		$sort_key	= $this->request->variable('sk', $default_sort_key);
 		
-		if ($sort_key == 't' && $this->config['display_last_post_show'] && $start > 0)
+		$current_row_number = $event['current_row_number'];
+		
+		if ($sort_key == 't' && $current_row_number == 0 && $this->config['display_last_post_show'] && $start > 0)
 		{
 			$this->language->add_lang('display_last_post', 'aurelienazerty/displaylastpost');
 			$post_row = $event['post_row'];
