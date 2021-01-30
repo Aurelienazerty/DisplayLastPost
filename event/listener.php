@@ -120,8 +120,6 @@ class listener implements EventSubscriberInterface
 				$new_post_list[$key+1] = $value;
 			}
 			
-			$join_user_sql = array('a' => true, 't' => false, 's' => false);
-			
 			$default_sort_days	= (!empty($this->user->data['user_post_show_days'])) ? $this->user->data['user_post_show_days'] : 0;
 			$default_sort_dir	= (!empty($this->user->data['user_post_sortby_dir'])) ? $this->user->data['user_post_sortby_dir'] : 'a';
 			

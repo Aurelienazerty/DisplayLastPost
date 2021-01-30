@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Extension which displays the post on the bottom of the previous page on the top of viewtopic ordered by post time only (ASC or DESC).",
     "homepage": "https://www.team-azerty.com",
-    "version": "1.2.6",
-    "time": "2020-12-27",
+    "version": "1.2.7",
+    "time": "2021-01-30",
     "keywords": ["phpbb", "extension", "post"],
     "license": "GPL-2.0-only",
     "authors": [
@@ -38,7 +38,7 @@
    "extra": {
         "display-name": "DisplayLastPost",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.0"
+            "phpbb/phpbb": ">=3.2.1"
         },
 	    "version-check": {
 			"host": "www.phpbb.com",
