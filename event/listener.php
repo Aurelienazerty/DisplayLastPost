@@ -40,6 +40,7 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\config\config	$config	Config object
 	 * @param \phpbb\user	$user	user object
 	 * @param \phpbb\request\request $request request object
+     * @param \phpbb\language\language $language language object
 	 * @access public
 	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\user $user, \phpbb\request\request $request, \phpbb\language\language $language)
@@ -169,7 +170,7 @@ class listener implements EventSubscriberInterface
 			//Array dereferencing only for php >= 5.4
 			$fetchrow = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			$new_post_list[0] = $fetchrow['post_id'];
+			$new_post_list[0] = intval($fetchrow['post_id']);
 			$event['post_list'] = $new_post_list;
 			$sql_ary['WHERE'] = $this->db->sql_in_set('p.post_id', $new_post_list) . ' AND u.user_id = p.poster_id';
 			$event['sql_ary'] = $sql_ary;
